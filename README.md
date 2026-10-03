@@ -5,7 +5,7 @@
 Zhuoyun Hu, Zeyu Zhen, Wen Zhu, Congping Lin
 — Huazhong University of Science and Technology, Wuhan, China
 
-This repository accompanies the paper *"A Physics-Informed KAN-Graphormer-SEIR Framework for City-Level Influenza Forecasting."* It contains the source code, training/plotting scripts, and the LaTeX source of the manuscript.
+This repository accompanies the paper *"A Physics-Informed KAN-Graphormer-SEIR Framework for City-Level Influenza Forecasting."* It contains the source code, training and plotting scripts, and the LaTeX source of the manuscript.
 
 The framework jointly forecasts daily influenza incidence across 24 Chinese cities by combining:
 
@@ -21,26 +21,25 @@ Beyond point forecasts, it infers time-varying epidemiological parameters ($\bet
 
 ```
 .
-├── paper/                     # LaTeX source + figures used in the manuscript
+├── paper/                     # LaTeX source and manuscript figures
 │   ├── KAN.tex
-│   └── *.pdf                  # 6 auto-generated result figures
+│   └── *.pdf
 ├── code/
 │   ├── exp_lib/               # shared library (config, layers, physics, data,
 │   │                          #   models, loss, trainer, visualizer)
-│   ├── experiments/           # training + plotting entry points
+│   ├── experiments/           # training and plotting entry points
 │   ├── preprocessing/         # data assembly pipeline
 │   └── analysis/              # interpretability analysis
-├── docs/                      # architecture / experiment design / results notes
+├── docs/                      # architecture, experiment design, and results
 ├── thesis/                    # thesis statement
-├── data/                      # data format description (data files not included)
+├── data/                      # data format description
 ├── requirements.txt
 └── LICENSE
 ```
 
 ## Environment
 
-- Python 3.9+ (developed with a PyTorch `venv`)
-- PyTorch (CUDA or CPU), NumPy, Pandas, Matplotlib, SciPy, scikit-learn, NetworkX, Seaborn, tqdm, openpyxl, requests
+PyTorch, NumPy, Pandas, Matplotlib, SciPy, scikit-learn, NetworkX, Seaborn, tqdm, openpyxl, requests.
 
 ```bash
 pip install -r requirements.txt
@@ -48,18 +47,16 @@ pip install -r requirements.txt
 
 ## Data
 
-The training data are four `.xlsx` files under `data/合并数据/` (see `data/statement.md` for the schema):
+The model reads four spreadsheets under `data/合并数据/` (see `data/statement.md` for the schema):
 
 - `01_Influenza_Target_Filled.xlsx` — daily influenza incidence targets
 - `02_City_Features.xlsx` — static city-level covariates
 - `03_Migration_Matrices_Outflow_Normalized.xlsx` — inter-city mobility matrices
 - `Final_Thesis_Dataset_2020.xlsx` — assembled features
 
-The raw data files are **not** included in this repository. Data paths are hardcoded in `code/exp_lib/config.py` (`BASE_DIR`, `base_result_dir`); update them to point to your local copies before running.
+## Usage
 
-## Reproduction
-
-All commands run from the `code/` directory (the scripts insert their parent directory into `sys.path` to import `exp_lib`). On Windows, prefix commands with `PYTHONIOENCODING=utf-8` to avoid GBK console errors.
+All commands run from the `code/` directory.
 
 ```bash
 cd code
@@ -81,7 +78,7 @@ python experiments/run_20seeds_full_final.py
 python experiments/run_20seeds_6models.py
 python experiments/run_20seeds_align_capacity.py
 
-# Regenerate the paper's result figures (read existing .pkl, seconds)
+# Regenerate the paper's result figures
 python experiments/regen_scatter.py
 python experiments/regen_city_level.py
 python experiments/regen_evolution.py
@@ -96,16 +93,7 @@ python experiments/multi_seed_analysis.py
 python experiments/convert_std_to_sem.py
 ```
 
-Figure outputs are written under `result/` (ignored by git).
-
-## Figures note
-
-The manuscript references two **architecture diagrams** that were not found among the project files and are therefore **not** included here:
-
-- `KAN-Graphormer混合预测模型总体架构与信息流转图.pdf` (overall architecture & information flow)
-- `Graphormer层的内部结构图.pdf` (Graphormer layer internals)
-
-These must be added to `paper/` (or generated) before compiling `KAN.tex`.
+Figure outputs are written under `result/`.
 
 ## License
 
